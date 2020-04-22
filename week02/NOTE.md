@@ -1,10 +1,9 @@
-# 每周总结可以写在这里
-1.编程语言通识：
+# 编程语言通识：
 了解了形式语言和非形式语言
 了解了什么是产生式：将源程序经过词法分析和语法分析后得到的一系列符合文法规则的语句
 知道了市面上的那些语言，有强类型和弱类型语言、有动态和静态语言。
 
-2.巴科斯范式：
+# 巴科斯范式：
 (Backus Normal Form, 简称BNF)
 
 是一种用于表示上下文无关文法的语言, 上下文无关文法描述了一类形式语言.
@@ -36,7 +35,7 @@ Number
 MulitiplicativeExpression
 AddtiveExpression
 
-3.动态与静态：
+# 动态与静态：
 动态
 
 在用户的设备/在线服务器上
@@ -48,7 +47,7 @@ runtime
 产品开发时
 compiletime (编译时)
 
-4.类型系统：
+# 类型系统：
 动态类型系统与静态类型系统
 强类型与弱类型
 String + Number
@@ -59,7 +58,7 @@ String == Boolean
 子类型
 逆变/协变
 
-5.词法和类型：
+# 词法和类型：
 InputElement
     WhiteSpace
     LineTerminator

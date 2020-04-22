@@ -1,4 +1,4 @@
-1. 写一个正则表达式 匹配所有 Number 直接量
+# 写一个正则表达式 匹配所有 Number 直接量
 整型直接量：
 
 概念
@@ -40,7 +40,7 @@
 
 /^-?[0-9]\d*$|(0x)?[0-9a-fA-F]+|0?[0-7]*|^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$/
 
-2. 写一个 UTF-8 Encoding 的函数
+# 写一个 UTF-8 Encoding 的函数
 function UTF8Encoding(str) {
   const code = encodeURIComponent(str)
   const bytes = []
@@ -59,5 +59,5 @@ function UTF8Encoding(str) {
   return bytes
 }
 
-3. 写一个正则表达式，匹配所有的字符串直接量，单引号和双引号
+# 写一个正则表达式，匹配所有的字符串直接量，单引号和双引号
 /[\u0021-\u007E]{6,16}|[\x21-\x7E]{6,16}|(['"])(?:(?!\1).)*?\1/g
