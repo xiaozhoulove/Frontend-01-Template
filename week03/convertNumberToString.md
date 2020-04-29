@@ -13,4 +13,3 @@ function convertNumberToString(number, radix) {
   }
   return fraction ? `${string}.${fraction}` : string;
 }
-```js

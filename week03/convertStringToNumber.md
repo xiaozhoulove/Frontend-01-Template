@@ -34,4 +34,3 @@ function convertStringToNumber(string, radix = 10) {
     }
   }
 }
-```js
