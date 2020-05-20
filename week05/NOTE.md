@@ -1,4 +1,4 @@
-# Week 02 学习总结
+# Week 05 学习总结
 ## 浏览器工作原理——总论与HTTP协议
 - URL=(HTTP)=>HTML=(parse)=>DOM=(css computing)=>DOM with CSS=(layout)=>DOM with position=(render)=>Bitmap
 
