@@ -1,0 +1,80 @@
+<input type="range" min='0' max="255" id="r"> r <br>
+<input type="range" min='0' max="255" id="g"> g <br>
+<input type="range" min='0' max="255" id="b"> b <br>
+<input type="range" min='0' max="100" id="a"> a <br>
+<div id='c' style="width: 400px;height: 400px;border: 1px solid gold;"></div>
+<script>
+    // 通过 proxy 对象的特性，在 get 和 set 里，加上 Hook 。用来实现双向绑定。
+    // 在 get 时，把依赖收集好。
+    // 在 set 时，把 proxy 对象的赋值val给到依赖数据。
+    let handlerMap = new Map;
+    let reactiveMap = new Map;
+    let usedReactivities = [];
+    function reactive(obj) {
+        if (reactiveMap.has(obj)) {
+            return reactiveMap.get(obj)
+        }
+
+        const proxy = new Proxy(obj, {
+            get(obj, prop) {
+                usedReactivities.push({ obj, prop })
+                if (typeof obj[prop] === 'object') {
+                    // 深度遍历对象，把对象里的引用类型属性都注册一遍，比如 a.b.c.d 这种情况
+                    return reactive(obj[prop])
+                }
+                return obj[prop]
+            },
+            set(obj, prop, val) {
+                obj[prop] = val
+                if (handlerMap.has(obj) && handlerMap.get(obj).has(prop)) {
+                    for (const handler of handlerMap.get(obj).get(prop)) {
+                        handler()
+                    }
+                }
+                return obj[prop]
+            }
+        })
+        // 缓存 proxy 对象
+        reactiveMap.set(obj, proxy)
+        // 这是考虑 reactive 注册一个 已经注册过的的 reactive 对象的情况，就像单例里把实例存起来，如果再次注册就返回这个存好的实例对象
+        reactiveMap.set(proxy, proxy)
+
+
+        return proxy
+    }
+    function effect(handler) {
+        usedReactivities.length = 0
+        handler()
+        for (const { obj, prop } of usedReactivities) {
+            if (!handlerMap.has(obj)) {
+                handlerMap.set(obj, new Map)
+            }
+            if (!handlerMap.get(obj).has(prop)) {
+                handlerMap.get(obj).set(prop, [])
+            }
+            handlerMap.get(obj).get(prop).push(handler)
+        }
+    }
+
+    let rgba = reactive({ r: 0, g: 0, b: 0, a: 60 });
+    effect(() => {
+        document.getElementById('r').value = rgba.r
+    });
+    effect(() => {
+        document.getElementById('g').value = rgba.g
+    });
+    effect(() => {
+        document.getElementById('b').value = rgba.b
+    });
+    effect(() => {
+        document.getElementById('a').value = rgba.a
+    });
+    document.getElementById('r').addEventListener('input', e => rgba.r = e.target.value)
+    document.getElementById('g').addEventListener('input', e => rgba.g = e.target.value)
+    document.getElementById('b').addEventListener('input', e => rgba.b = e.target.value)
+    document.getElementById('a').addEventListener('input', e => rgba.a = e.target.value)
+
+    effect(() => {
+        document.getElementById('c').style.backgroundColor = `rgba(${rgba.r},${rgba.g},${rgba.b},${rgba.a / 100})`
+    })
+</script>
